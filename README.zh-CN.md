@@ -8,6 +8,7 @@
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-Standard-green)](https://agentskills.io)
 [![Corpus](https://img.shields.io/badge/Corpus-local_only-lightgrey.svg)](#数据和版权)
+[![English README](https://img.shields.io/badge/README-English-blue.svg)](README.md)
 
 [它能做什么](#它能做什么) · [怎么用](#怎么用) · [示例](#示例) · [安装](#安装) · [语料生成](#语料生成) · [可选集成](#可选集成) · [数据和版权](#数据和版权)
 
@@ -59,8 +60,8 @@ Use $cat-behavior-vet to assess this case:
 
 | 示例 | 重点 | 文件 |
 | --- | --- | --- |
-| [窗外猫触发攻击](examples/window-redirected-aggression/) | 看到窗外猫后的转嫁攻击 | case prompt + sample consult |
-| [就诊压力](examples/vet-visit-stress/) | 猫包、乘车和诊所压力 | case prompt + sample consult |
+| 窗外猫触发攻击 | 看到窗外猫后的转嫁攻击 | [Case](examples/window-redirected-aggression/case.zh-CN.md) · [示例 consult](examples/window-redirected-aggression/sample-consult.zh-CN.md) |
+| 就诊压力 | 猫包、乘车和诊所压力 | [Case](examples/vet-visit-stress/case.zh-CN.md) · [示例 consult](examples/vet-visit-stress/sample-consult.zh-CN.md) |
 
 示例不包含论文摘要正文、全文、PDF、私人 case 信息或 Zotero 内容。
 

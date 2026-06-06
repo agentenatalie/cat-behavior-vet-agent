@@ -8,6 +8,7 @@
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-Standard-green)](https://agentskills.io)
 [![Corpus](https://img.shields.io/badge/Corpus-local_only-lightgrey.svg)](#data-and-copyright)
+[![中文 README](https://img.shields.io/badge/README-ZH--CN-red.svg)](README.zh-CN.md)
 
 [What It Does](#what-it-does) · [How To Use](#how-to-use) · [Examples](#examples) · [Installation](#installation) · [Corpus Setup](#corpus-setup) · [Integrations](#integrations) · [Data & Copyright](#data-and-copyright)
 
@@ -59,8 +60,8 @@ The [`examples/`](examples/) folder contains fictional sample cases and shortene
 
 | Example | Focus | Files |
 | --- | --- | --- |
-| [Window-triggered aggression](examples/window-redirected-aggression/) | Redirected aggression after seeing an outdoor cat | Case prompt + sample consult |
-| [Vet visit stress](examples/vet-visit-stress/) | Carrier, car, and clinic stress | Case prompt + sample consult |
+| Window-triggered aggression | Redirected aggression after seeing an outdoor cat | [Case](examples/window-redirected-aggression/case.md) · [Sample consult](examples/window-redirected-aggression/sample-consult.md) |
+| Vet visit stress | Carrier, car, and clinic stress | [Case](examples/vet-visit-stress/case.md) · [Sample consult](examples/vet-visit-stress/sample-consult.md) |
 
 Examples do not include article abstracts, full text, PDFs, private case data, or Zotero content.
 
