@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for improving Veterinary Behaviorist Skill. This project is a local-first skill package for evidence-based veterinary behavior support in AI runtimes such as Claude Code and Codex.
+Thank you for improving Cat Behavior Vet Skill. This project is a local-first skill package for evidence-based veterinary behavior support in AI runtimes such as Claude Code and Codex.
 
 This repository is public-source under CC BY-NC-ND 4.0. By opening a pull request, you confirm that you own or have permission to submit the contribution, and you grant the maintainers permission to review, adapt, merge, and publish your contribution in this repository under the project license.
 
@@ -25,8 +25,8 @@ This repository is public-source under CC BY-NC-ND 4.0. By opening a pull reques
 ## Development Setup
 
 ```bash
-git clone https://github.com/agentenatalie/cat-behavior-vet-agent.git
-cd cat-behavior-vet-agent
+git clone https://github.com/agentenatalie/cat-behavior-vet-skill.git
+cd cat-behavior-vet-skill
 ```
 
 Generate a local corpus if you need to test retrieval:

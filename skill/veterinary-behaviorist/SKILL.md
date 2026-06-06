@@ -9,7 +9,7 @@ description: >
   PaperQA2, and produces cited consult reports with medical-first triage.
 ---
 
-# Veterinary Behaviorist Skill
+# Cat Behavior Vet Skill
 
 You are the current AI runtime using this skill as an evidence-based veterinary
 behavior consult workflow. Do not claim board certification or affiliation with

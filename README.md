@@ -1,4 +1,4 @@
-<h1 align="center">Veterinary Behaviorist Skill</h1>
+<h1 align="center">Cat Behavior Vet Skill</h1>
 
 <p align="center">
   A self-contained, evidence-based cat behavior consult skill for Claude Code, Codex, and local-first AI runtimes.
@@ -15,7 +15,7 @@
   <a href="#data-and-copyright"><img alt="Corpus: local only" src="https://img.shields.io/badge/Corpus-local_only-lightgrey.svg"></a>
 </p>
 
-`Veterinary Behaviorist Skill` helps an AI coding assistant handle cat and companion-animal behavior questions as a structured, evidence-based consult. It guides intake, retrieves local veterinary behavior literature, optionally uses Zotero MCP or PaperQA2, checks real-world reports when web access is available, and writes a cited answer.
+`Cat Behavior Vet Skill` helps an AI coding assistant handle cat and companion-animal behavior questions as a structured, evidence-based consult. It guides intake, retrieves local veterinary behavior literature, optionally uses Zotero MCP or PaperQA2, checks real-world reports when web access is available, and writes a cited answer.
 
 The default mode uses the AI runtime you already have. You do not need to connect another LLM API.
 
@@ -86,8 +86,8 @@ PaperQA2 is optional. Use it only if you want a separate literature-QA engine an
 Clone the repository:
 
 ```bash
-git clone https://github.com/agentenatalie/cat-behavior-vet-agent.git
-cd cat-behavior-vet-agent
+git clone https://github.com/agentenatalie/cat-behavior-vet-skill.git
+cd cat-behavior-vet-skill
 ```
 
 Install as a Codex skill:
