@@ -1,37 +1,51 @@
 # Veterinary Behaviorist Agent
 
-循证猫/伴侣动物行为 consult agent。适合接入 Claude Code、Codex 或其他支持本地命令/skill 的 agent 环境，用来回答猫应激、攻击、排泄、恐惧、疼痛/疾病相关行为变化等问题。
+[English](README.md) | [中文](README.zh-CN.md)
 
-默认用法是 **host-agent mode**：Claude Code/Codex 自己就是推理模型。本项目只提供行为专科 prompt、本地文献检索脚本和可选 Zotero/PaperQA2 工具，不要求再接入另一个 LLM API。
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
+[![Local-first](https://img.shields.io/badge/Mode-local--first-lightgrey.svg)](#host-agent-mode)
 
-## 工作方式
+Evidence-based veterinary behavior agent for cats and companion animals. It is designed for Claude Code, Codex, and other host agents that can read a skill file and run local commands.
 
-默认流程：
+The default mode uses the host agent itself as the reasoning model. You do not need to connect another LLM API. This repository provides the veterinary behavior prompt, local literature retrieval scripts, corpus generation tooling, and optional Zotero MCP / PaperQA2 integrations.
 
-1. 用户显式调用 `/veterinary-behaviorist`。
-2. 宿主 agent 读取 `skill/veterinary-behaviorist/SKILL.md`，按兽医行为专科流程工作。
-3. 宿主 agent 用 `scripts/search_corpus.py` 检索本地文献片段。
-4. 如果配置了 Zotero MCP，宿主 agent 可继续读取本地 Zotero 元数据、全文、笔记和注释。
-5. 宿主 agent 用自己的模型生成回答，并只引用实际检索到的文献。
+## What It Does
 
-可选流程：
+- Guides a host agent through a veterinary behavior consult workflow.
+- Retrieves local evidence from a PubMed-derived cat behavior corpus.
+- Supports cat stress, fear, aggression, elimination problems, pain or disease-related behavior change, and clinic handling questions.
+- Encourages medical-first triage before behavioral interpretation.
+- Requires citations from retrieved evidence. No fabricated PMID, DOI, or author-year citations.
+- Supports optional Zotero MCP for local reference libraries, notes, annotations, and PDFs.
+- Supports optional PaperQA2 mode when the user already has an OpenAI-compatible LLM API.
 
-- 已经有 OpenAI-compatible LLM API 时，可以启用 PaperQA2，让 `scripts/consult.sh` 直接生成带引用的文献 QA。
-- 没有额外 LLM API 时，不用 PaperQA2 QA，直接用 `search_corpus.py` 检索证据，由 Claude Code/Codex 自己回答。
+## Keywords
 
-## 文献语料
+`veterinary-behavior`, `cat-behavior`, `animal-behavior`, `ai-agent`, `claude-code`, `codex`, `zotero`, `paperqa`, `pubmed`, `evidence-based`, `rag`, `local-first`, `veterinary-medicine`, `cats`
 
-仓库不自带论文全文、摘要正文或 Zotero 附件。运行安装步骤后，脚本会从 PubMed、Unpaywall 和 Europe PMC 在本地生成检索语料。
+## Architecture
 
-这样做是因为摘要和全文的版权状态因期刊和文章而异，不同使用者也可能有自己的机构权限、Zotero 库和 PDF 来源。
+Default host-agent mode:
 
-仓库内的 `literature/cat-behavior.provenance.json` 只记录可公开引用的检索元数据：PMID、标题、年份、期刊和查询来源。实际问答语料由使用者在本机生成。
+1. The user explicitly calls `/veterinary-behaviorist`.
+2. Claude Code, Codex, or another host agent loads `skill/veterinary-behaviorist/SKILL.md`.
+3. The host agent runs `scripts/search_corpus.py` to retrieve local evidence snippets.
+4. If Zotero MCP is configured, the host agent can also search the local Zotero library.
+5. The host agent writes the final answer using its own model and cites only retrieved sources.
 
-## 目录结构
+Optional PaperQA2 mode:
+
+1. The user configures an OpenAI-compatible API key.
+2. PaperQA2 indexes the local corpus.
+3. `scripts/consult.sh` asks PaperQA2 to retrieve and synthesize a cited answer.
+
+## Repository Layout
 
 ```text
 .
 ├── README.md
+├── README.zh-CN.md
 ├── .env.example
 ├── .gitignore
 ├── settings.json
@@ -52,7 +66,7 @@
         └── SKILL.md
 ```
 
-运行后会在本地生成：
+Local corpus files are generated after setup:
 
 ```text
 literature/cat-behavior.ris
@@ -63,39 +77,46 @@ papers/manifest.csv
 .pqa_index/
 ```
 
-这些文件只供本地检索使用。
+These files are for local retrieval and are not shipped with the repository.
 
-## 组件和下载链接
+## Data Policy
 
-默认 host-agent mode 只需要：
+This repository does not include article full text, article abstracts, Zotero attachments, or Zotero notes.
 
-- Python 3.11+：<https://www.python.org/downloads/>
-- Claude Code、Codex 或其他能读取 skill 并运行本地命令的 agent 环境
+The corpus is generated locally from:
 
-文献获取用到的公开服务：
+- PubMed E-utilities: <https://www.ncbi.nlm.nih.gov/books/NBK25501/>
+- Unpaywall API: <https://unpaywall.org/products/api>
+- Europe PMC REST API: <https://europepmc.org/RestfulWebService>
 
-- NCBI E-utilities：<https://www.ncbi.nlm.nih.gov/books/NBK25501/>
-- Unpaywall API：<https://unpaywall.org/products/api>
-- Europe PMC REST API：<https://europepmc.org/RestfulWebService>
+`literature/cat-behavior.provenance.json` stores public bibliographic metadata: PMID, title, year, journal, and query source. Actual retrieval text is generated on the user's machine.
 
-可选组件：
+## Requirements
 
-- Zotero 7+：<https://www.zotero.org/download/>
-- Zotero MCP server：<https://pypi.org/project/zotero-mcp-server/>
-- pipx：<https://pipx.pypa.io/stable/installation/>
-- PaperQA2 / `paper-qa`：<https://github.com/Future-House/paper-qa>
-- sentence-transformers：<https://www.sbert.net/docs/installation.html>
-- LiteLLM provider 配置参考：<https://docs.litellm.ai/docs/providers>
+Default host-agent mode:
 
-## 快速接入 Claude Code / Codex
+- Python 3.11+
+- Claude Code, Codex, or another agent environment that can read local instructions and run shell commands
 
-进入仓库根目录：
+Optional integrations:
+
+- Zotero 7+: <https://www.zotero.org/download/>
+- Zotero MCP server: <https://pypi.org/project/zotero-mcp-server/>
+- pipx: <https://pipx.pypa.io/stable/installation/>
+- PaperQA2 / `paper-qa`: <https://github.com/Future-House/paper-qa>
+- sentence-transformers: <https://www.sbert.net/docs/installation.html>
+- LiteLLM provider configuration: <https://docs.litellm.ai/docs/providers>
+
+## Quick Start
+
+Clone the repository:
 
 ```bash
-cd /path/to/vet-agent
+git clone https://github.com/agentenatalie/cat-behavior-vet-agent.git
+cd cat-behavior-vet-agent
 ```
 
-生成本地文献语料：
+Generate the local literature corpus:
 
 ```bash
 cd literature
@@ -104,161 +125,135 @@ cd ..
 UNPAYWALL_EMAIL=you@example.com python3 scripts/fetch_oa.py
 ```
 
-安装 skill。
+Test local retrieval:
 
-Codex：
+```bash
+python3 scripts/search_corpus.py "owner-directed aggression in cats" -n 5
+python3 scripts/search_corpus.py "猫突然攻击主人，疼痛和 redirected aggression 怎么区分?" -n 5
+```
+
+## Install as a Claude Code or Codex Skill
+
+Codex:
 
 ```bash
 mkdir -p ~/.codex/skills
-ln -s /path/to/vet-agent/skill/veterinary-behaviorist ~/.codex/skills/veterinary-behaviorist
+ln -s /path/to/cat-behavior-vet-agent/skill/veterinary-behaviorist ~/.codex/skills/veterinary-behaviorist
 ```
 
-Claude Code：
+Claude Code:
 
 ```bash
 mkdir -p ~/.claude/skills
-ln -s /path/to/vet-agent/skill/veterinary-behaviorist ~/.claude/skills/veterinary-behaviorist
+ln -s /path/to/cat-behavior-vet-agent/skill/veterinary-behaviorist ~/.claude/skills/veterinary-behaviorist
 ```
 
-设置仓库路径：
+Set the repository path:
 
 ```bash
-export VET_AGENT_HOME=/path/to/vet-agent
+export VET_AGENT_HOME=/path/to/cat-behavior-vet-agent
 ```
 
-建议把这行放进 shell profile，或在 agent 运行环境里配置同名环境变量。Skill 里不写死本机路径；宿主 agent 从 `VET_AGENT_HOME` 找仓库根目录。
+Put that line in your shell profile or configure the same environment variable in your agent runtime.
 
-调用：
+Call the skill explicitly:
 
 ```text
 /veterinary-behaviorist
+use the veterinary behaviorist skill for this case
+consult the veterinary behaviorist agent
 用兽医行为 skill 看一下这个 case
-consult 兽医行为医生 agent
-call the veterinary behaviorist
 ```
 
-这个 skill 默认关闭。不要因为对话里出现“猫、狗、行为、攻击、应激、焦虑”等词就自动启用，必须显式调用。
+The skill is off by default. The host agent should not activate it just because a conversation mentions cats, dogs, behavior, aggression, stress, or anxiety.
 
 ## Host-Agent Mode
 
-这是默认模式，不需要额外 LLM API。
+Host-agent mode is the default. It does not require an additional LLM API.
 
-宿主 agent 调用本地检索：
+The host agent retrieves local evidence:
 
 ```bash
 cd "$VET_AGENT_HOME"
-python3 scripts/search_corpus.py "猫突然攻击主人，疼痛和 redirected aggression 怎么区分?"
 python3 scripts/search_corpus.py "objective indicators of stress in cats" -n 10
+python3 scripts/search_corpus.py "cat owner-directed aggression treatment" -n 10
 ```
 
-`search_corpus.py` 会输出：
+`search_corpus.py` returns:
 
-- 文献标题和年份
-- DOI 或 PMID
-- 语料来源
-- citation
-- 命中的文本片段
+- Title and year
+- DOI or PMID
+- Corpus source
+- Citation
+- Matching snippet
 
-宿主 agent 读取这些片段后，用自己的模型完成医学分诊、动机诊断、方案和引用整理。
+The host agent then uses its own model to produce the consult answer.
 
-如果没有生成本地语料，先运行：
+## Behavior Contract for Host Agents
 
-```bash
-cd "$VET_AGENT_HOME"
-cd literature
-NCBI_EMAIL=you@example.com python3 harvest_pubmed.py
-cd ..
-UNPAYWALL_EMAIL=you@example.com python3 scripts/fetch_oa.py
-```
+When the skill is activated, the host agent should:
 
-## 给宿主 Agent 的执行规则
+1. Restate the case: species, age, sex/neuter status, behavior, triggers, timeline, and injury risk.
+2. Start with medical-first triage: pain, skin disease, urinary disease, endocrine disease, neurologic disease, medication effects, cognitive decline.
+3. Retrieve evidence with `scripts/search_corpus.py`.
+4. Use Zotero MCP if available and relevant.
+5. Classify aggression by motivation: fear/defensive, redirected, petting-induced, play, pain, territorial, predatory, or other supported categories.
+6. Provide management, environmental modification, behavior modification, safety thresholds, and referral triggers.
+7. Cite only retrieved evidence from local search, Zotero, or PaperQA2.
+8. State uncertainty when evidence is abstract-only, weak, extrapolated, or missing.
 
-处理 case 时按这个顺序：
-
-1. 确认物种、年龄、性别/绝育、行为、触发因素、时间线、伤害风险。
-2. 先做医疗优先分诊：疼痛、皮肤病、泌尿、内分泌、神经、药物、认知退化等。
-3. 用本地检索脚本查证据：
-
-```bash
-cd "$VET_AGENT_HOME"
-python3 scripts/search_corpus.py "focused evidence question" -n 8
-```
-
-4. 如果 Zotero MCP 可用，再用 Zotero 搜索本地库，读取元数据、全文、笔记或注释。
-5. 按动机分类行为问题。猫攻击要区分 fear/defensive、redirected、petting-induced、play、pain、territorial、predatory 等。
-6. 方案包含环境管理、行为改变、风险控制、何时需要兽医行为专科或当面兽医。
-7. 引用只来自 `search_corpus.py` 输出、PaperQA2 输出或 Zotero item。没有证据就明确说是临床推理，不要伪造 PMID、DOI、作者年份。
-
-推荐输出结构：
+Suggested answer format:
 
 ```text
-结论
-医疗优先分诊
-最可能诊断和鉴别
-处理方案
-长期相处策略
-证据和引用
-局限和升级条件
+Bottom line
+Medical triage
+Most likely diagnosis and differentials
+Plan
+Long-term living strategy
+Evidence and citations
+Limitations and escalation thresholds
 ```
 
-## 生成本地文献语料
+## Generate or Refresh the Corpus
 
-先用 PubMed E-utilities 生成 RIS。这个步骤会把摘要写入本地 RIS 文件。
+Generate PubMed RIS data:
 
 ```bash
-cd /path/to/vet-agent/literature
+cd /path/to/cat-behavior-vet-agent/literature
 NCBI_EMAIL=you@example.com python3 harvest_pubmed.py
 ```
 
-输出：
-
-```text
-literature/cat-behavior.ris
-literature/cat-behavior.provenance.json
-```
-
-再抓取开放获取全文，并为本地检索生成 manifest：
+Fetch open-access full text when available and create `papers/manifest.csv`:
 
 ```bash
-cd /path/to/vet-agent
+cd /path/to/cat-behavior-vet-agent
 UNPAYWALL_EMAIL=you@example.com python3 scripts/fetch_oa.py
 ```
 
-输出：
+Fetch strategy:
 
-```text
-papers/PMID*.abstract.txt
-papers/PMID*.fulltext.txt
-papers/PMID*.pdf
-papers/manifest.csv
-```
+1. Use an existing local `papers/PMID<pmid>.pdf` if present.
+2. Try Unpaywall open-access PDF.
+3. Try Europe PMC open-access full-text XML and convert it to text.
+4. Use PubMed abstract text when no full text is available.
 
-抓取策略：
-
-1. 如果 `papers/PMID<pmid>.pdf` 已存在且大小正常，使用现有 PDF。
-2. 尝试 Unpaywall 开放获取 PDF。
-3. 尝试 Europe PMC 开放获取 full-text XML，转为纯文本。
-4. 找不到全文时，使用 PubMed 摘要生成 `PMID*.abstract.txt`。
-
-如果有机构权限获取的 PDF，可以手动放进 `papers/`：
+If you have lawful access to a PDF, place it in `papers/`:
 
 ```text
 papers/PMID29099247.pdf
 ```
 
-再运行：
+Then refresh the manifest:
 
 ```bash
 python3 scripts/fetch_oa.py
 ```
 
-脚本会优先使用已有 PDF，并重写 `papers/manifest.csv`。
+## Optional: PaperQA2 Mode
 
-## 可选：PaperQA2 Mode
+PaperQA2 mode lets `pqa` retrieve and synthesize cited answers. Use it when you already have an OpenAI-compatible LLM API.
 
-PaperQA2 mode 会让 `pqa` 自己完成文献检索和回答生成，适合已经有 OpenAI-compatible LLM API 的使用者。
-
-安装：
+Install:
 
 ```bash
 python3 -m pip install --user pipx
@@ -267,184 +262,97 @@ pipx install "paper-qa>=5"
 pipx inject paper-qa sentence-transformers
 ```
 
-确认 `pqa` 可用：
-
-```bash
-pqa --help
-```
-
-配置环境变量：
+Configure:
 
 ```bash
 cp .env.example .env
 ```
 
-编辑 `.env`：
+Edit `.env`:
 
 ```bash
 PQA_API_KEY=your-openai-compatible-provider-key
 UNPAYWALL_EMAIL=you@example.com
 ```
 
-`UNPAYWALL_EMAIL` 用于 Unpaywall API 联系邮箱。建议使用可联系到你的邮箱。
-
-本项目默认 PaperQA2 配置：
-
-- LLM：`mimo-v2.5-pro`
-- API base：`https://token-plan-sgp.xiaomimimo.com/v1`
-- API key 环境变量：`PQA_API_KEY`
-- embedding：`st-multi-qa-MiniLM-L6-cos-v1`
-- embedding 在本地跑，不调用外部 embedding API
-
-要换模型或 provider，改 `settings.json`：
-
-- `llm`
-- `summary_llm`
-- `llm_config.model_list[0].model_name`
-- `llm_config.model_list[0].litellm_params.model`
-- `llm_config.model_list[0].litellm_params.api_base`
-- `summary_llm_config` 里的同名字段
-
-`api_key` 建议继续用 `os.environ/PQA_API_KEY`。
-
-建索引：
+Index:
 
 ```bash
-cd /path/to/vet-agent
+cd /path/to/cat-behavior-vet-agent
 ./scripts/index.sh
 ```
 
-问答：
+Ask:
 
 ```bash
-cd /path/to/vet-agent
-./scripts/consult.sh "猫的应激行为有哪些可靠的客观指标?"
-./scripts/consult.sh "redirected aggression 的触发因素和攻击对象规律?"
-./scripts/consult.sh "猫突然开始攻击主人，应该优先排查哪些医学原因?"
+./scripts/consult.sh "What are reliable objective indicators of stress in cats?"
 ```
 
-`consult.sh` 会读取 `.env`，检查 `PQA_API_KEY`，设置 `OPENAI_API_KEY`，再调用 `pqa --settings settings ask`。
+Default PaperQA2 settings are in `settings.json`. The default model is `mimo-v2.5-pro` through an OpenAI-compatible endpoint. To use another provider, update `llm`, `summary_llm`, model names, model IDs, and API base values in `settings.json`. Keep `api_key` as `os.environ/PQA_API_KEY`.
 
-## Zotero MCP 可选配置
+## Optional: Zotero MCP
 
-Zotero MCP 用于搜索本地 Zotero 文献库、读取元数据、全文、笔记和注释。Host-agent mode 可以在 MCP 可用时同时使用本地语料检索和 Zotero。
+Zotero MCP lets the host agent search a local Zotero library, read metadata, inspect full text, and use notes or annotations.
 
-安装：
+Install:
 
 ```bash
 pipx install zotero-mcp-server
 ```
 
-确认命令：
+Make sure Zotero 7+ is installed, running, and local API access is enabled.
+
+If `localhost:23119` fails but `127.0.0.1:23119` works, use the launcher:
 
 ```bash
-zotero-mcp --help
+~/.local/pipx/venvs/zotero-mcp-server/bin/python /path/to/cat-behavior-vet-agent/scripts/zotero_mcp_local.py serve
 ```
 
-Zotero 设置：
-
-1. 安装并打开 Zotero 7+。
-2. 打开 Zotero 本地 API。通常在 Settings / Advanced 相关设置里。
-3. 保持 Zotero 运行。
-
-如果本机 `localhost:23119` 返回 503，但 `127.0.0.1:23119` 正常，可以用启动器：
+Import the generated RIS file into Zotero:
 
 ```bash
-~/.local/pipx/venvs/zotero-mcp-server/bin/python /path/to/vet-agent/scripts/zotero_mcp_local.py serve
-```
-
-把 MCP server 注册到 Codex 或 Claude Code 时，命令使用上面这一行即可。注册完成后，agent 可以调用 Zotero MCP 工具搜索本地文献库。
-
-导入 RIS 到 Zotero：
-
-```bash
-cd /path/to/vet-agent
+cd /path/to/cat-behavior-vet-agent
 curl -X POST http://127.0.0.1:23119/connector/import \
   -H "Content-Type: application/x-research-info-systems" \
   --data-binary @literature/cat-behavior.ris
 ```
 
-重复导入会产生重复条目。需要去 Zotero 的 Duplicate Items 里合并，或导入到新 collection。
+Repeated imports can create duplicate Zotero items. Use Zotero's Duplicate Items view or import into a fresh collection.
 
-## 常见问题
+## FAQ
 
-`papers/manifest.csv` 不存在
+### Do I need another LLM API?
 
-先生成本地语料：
+No. The default host-agent mode uses Claude Code, Codex, or your existing host agent as the reasoning model.
 
-```bash
-cd literature && NCBI_EMAIL=you@example.com python3 harvest_pubmed.py
-cd ..
-UNPAYWALL_EMAIL=you@example.com python3 scripts/fetch_oa.py
-```
+### Why is there a PaperQA2 configuration?
 
-`literature/cat-behavior.ris` 不存在
+PaperQA2 is an optional mode for users who want a separate literature-QA engine and already have an OpenAI-compatible API key.
 
-运行：
+### Why are papers not included?
 
-```bash
-cd literature
-NCBI_EMAIL=you@example.com python3 harvest_pubmed.py
-```
+Article abstracts, full text, and PDFs can have different redistribution rights. The repository includes reproducible retrieval scripts and public provenance metadata instead.
 
-`pqa: command not found`
+### Is this a veterinary diagnosis service?
 
-只有 PaperQA2 mode 需要 `pqa`。安装后确认 pipx 的 bin 目录在 PATH：
+No. It is an evidence-retrieval and reasoning aid. It cannot replace an in-person veterinarian or a board-certified veterinary behaviorist.
 
-```bash
-python3 -m pipx ensurepath
-export PATH="$HOME/.local/bin:$PATH"
-```
+## Contributing
 
-`ERROR: 还没设置 PQA_API_KEY`
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-只有 PaperQA2 mode 需要 `PQA_API_KEY`。确认 `.env` 存在，并且不是占位值：
+Useful contribution areas:
 
-```bash
-cat .env
-```
+- Better PubMed query buckets
+- Higher-quality retrieval ranking
+- Additional species or behavior domains
+- More robust Zotero MCP setup docs
+- Tests for corpus generation and local search
 
-Zotero MCP 连不上
+## Safety and Medical Disclaimer
 
-确认 Zotero 正在运行、本地 API 已开启。再检查：
+This project is for educational and decision-support use. Behavior changes can be caused by pain, disease, medication effects, or environmental stressors. For injuries, escalating aggression, sudden behavior change, or welfare risk, seek in-person veterinary care.
 
-```bash
-curl http://127.0.0.1:23119/api/
-```
+## License
 
-如果 `localhost` 失败、`127.0.0.1` 成功，使用 `scripts/zotero_mcp_local.py` 启动 MCP。
-
-## 更新语料
-
-修改 `literature/harvest_pubmed.py` 里的 `BUCKETS` 查询后重跑：
-
-```bash
-cd literature
-NCBI_EMAIL=you@example.com python3 harvest_pubmed.py
-cd ..
-UNPAYWALL_EMAIL=you@example.com python3 scripts/fetch_oa.py
-```
-
-更新后检查：
-
-```bash
-python3 - <<'PY'
-import csv
-from pathlib import Path
-root = Path(".")
-missing = []
-with (root / "papers/manifest.csv").open(newline="", encoding="utf-8") as f:
-    for row in csv.DictReader(f):
-        if not (root / "papers" / row["file_location"]).exists():
-            missing.append(row["file_location"])
-print("missing", len(missing))
-for name in missing:
-    print(name)
-PY
-```
-
-确认无缺失后即可用于 `search_corpus.py`。PaperQA2 mode 还需要重跑：
-
-```bash
-./scripts/index.sh
-```
+MIT. See [LICENSE](LICENSE).
