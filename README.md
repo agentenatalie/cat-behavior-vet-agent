@@ -26,7 +26,8 @@ Cat Behavior Vet Skill helps AI assistants handle cat behavior questions as stru
 | **Medical triage** | Flag pain, illness, medication, neurologic, urinary, skin, GI, and welfare risks. | Vet visit / referral thresholds |
 | **Evidence retrieval** | Search a local PubMed-derived corpus with bundled scripts. | Cited evidence snippets |
 | **Behavior assessment** | Classify likely motivation and differentials. | Diagnosis-by-motivation, not labels |
-| **Plan** | Build safety, management, environment, and behavior-modification steps. | Practical care plan |
+| **Plan** | Build safety, management, environment, and behavior-modification steps. | Practical care plan + execution flowchart |
+| **Evidence map** | Tie each major action to papers, public implementation reports, and stop criteria. | Action-evidence table |
 | **Real-world check** | When web access is available, compare against similar public case reports. | Anecdotal implementation patterns |
 
 The skill does not fabricate citations, does not endorse dominance or punishment-based advice, and does not replace veterinary care.
@@ -52,7 +53,7 @@ Expected flow:
 2. Summarize the case and ask for confirmation.
 3. Retrieve local scientific evidence.
 4. Search similar public real-world reports when web access is available.
-5. Produce a cited consult with medical triage, behavior assessment, plan, evidence, limitations, and escalation thresholds.
+5. Produce a cited consult with medical triage, behavior assessment, execution flowchart, action-evidence table, limitations, and escalation thresholds.
 
 ## Examples
 

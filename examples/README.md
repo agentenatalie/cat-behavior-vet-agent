@@ -12,4 +12,5 @@ content.
 | Vet visit stress | Transport and veterinary-exam stress | [Case](vet-visit-stress/case.md) · [Sample consult](vet-visit-stress/sample-consult.md) |
 
 Scientific citations in the sample consults use public bibliographic metadata
-from `literature/cat-behavior.provenance.json`.
+from `literature/cat-behavior.provenance.json`. Real-world corroboration links
+point to public veterinary, clinic, or behavior resources.

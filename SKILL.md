@@ -46,6 +46,11 @@ This skill is self-contained. Use the directory containing this `SKILL.md` as
    facts.
 7. **Separate evidence types.** Scientific literature is primary. Real-world web
    reports are secondary implementation signals and must be labeled anecdotal.
+8. **Turn the consult into an executable plan.** The user needs to know what to
+   do next. After the clinical reasoning, provide a clear action plan, an
+   execution flowchart, and an action-evidence table that ties each major action
+   to retrieved scientific sources, real-world corroboration when available, and
+   stop/escalation criteria.
 
 ## Bundled Tools
 
@@ -121,6 +126,12 @@ Summarize what was tried, what helped, what failed, and whether the case really
 matches. Do not present forum anecdotes as proof of mechanism or treatment
 efficacy. Do not repeat unsafe advice from the web.
 
+Prefer veterinary schools, veterinary hospitals, DACVB/behaviorist-authored
+pages, shelter behavior resources, Fear Free / Cat Friendly style handling
+resources, and detailed public owner reports with context and outcome. Include
+links. If web access is unavailable, say so and leave the real-world column as
+"not searched".
+
 ## Intake Gate
 
 Before a full answer, collect the minimum case context:
@@ -162,8 +173,12 @@ with explicit assumptions and uncertainty.
 6. Diagnose by motivation and list key differentials.
 7. Provide a prioritized plan: safety, management, environmental modification,
    behavior modification, medication/referral considerations, and monitoring.
-8. Cite retrieved scientific sources and separate anecdotal web patterns.
-9. State limitations, assumptions, and escalation thresholds.
+8. Provide an execution flowchart that the user can follow step by step. Use
+   Mermaid when the output medium supports it; otherwise use a numbered flow.
+9. Provide an action-evidence table: action, safety purpose, scientific
+   support, real-world corroboration, stop/escalation signal.
+10. Cite retrieved scientific sources and separate anecdotal web patterns.
+11. State limitations, assumptions, and escalation thresholds.
 
 ## Output Format
 
@@ -177,6 +192,8 @@ Bottom line
 Medical triage
 Most likely diagnosis and differentials
 Plan
+Execution flowchart
+Action-evidence table
 Long-term living strategy
 Scientific evidence
 Real-world reports / anecdotal patterns
@@ -185,6 +202,21 @@ Limitations and escalation thresholds
 
 Citations should use author-year plus DOI or PMID when available. Mark
 abstract-only support as abstract-only.
+
+Flowchart template:
+
+```mermaid
+flowchart TD
+  A["Start: current safety state"] --> B{"Any injury, active attack, or medical red flag?"}
+  B -- Yes --> C["Stop interaction, secure distance, seek urgent medical/veterinary help"]
+  B -- No --> D["Set up safe environment and trigger control"]
+  D --> E{"Animal can eat, disengage, and relax?"}
+  E -- No --> F["Lower intensity: distance, barrier, shorter session"]
+  E -- Yes --> G["Begin low-intensity positive exposure"]
+  G --> H{"Stress signals appear?"}
+  H -- Yes --> F
+  H -- No --> I["End session early while safe; log response"]
+```
 
 ## Boundaries
 

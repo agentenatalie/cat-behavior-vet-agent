@@ -1,55 +1,104 @@
-# 示例 Consult：窗外猫触发攻击
+# 示例 Consult：窗外猫触发后的转嫁攻击康复方案
 
-这是一个虚构、缩短版示例，只展示回答结构。它不是针对真实动物的兽医建议。
+这是一个虚构示例，用来展示 skill 的输出深度。它不是针对真实动物的兽医建议。
 
-## Intake 追问
+## 已确认 Case Summary
 
-完整评估前，skill 应该先问：
+- 4 岁、已绝育、室内猫。
+- 触发点高度一致：客厅窗边看到户外猫后，约 20 秒内攻击照护者小腿。
+- 本月已发生 2 次；一次咬伤破皮。
+- 同住猫目前已经隔开。
+- 家里没有儿童；最近没有做过兽医检查。
+- 攻击后约 40 分钟才恢复，说明高唤醒状态持续时间不短。
 
-1. 最近是否做过体检、疼痛检查、牙科检查和泌尿问题排查？
-2. 咬伤是否需要就医？事件后是否已经安全隔离？
-3. 攻击前具体身体语言是什么：僵住、甩尾、炸毛、低吼、瞳孔放大、盯视或 stalking？
-4. 现在能否暂时遮挡或封锁这扇窗？
-5. 最近有没有食欲、饮水、排泄、活动、梳毛或皮肤变化？
+## 核心判断
 
-## 结论
+最可能是 **redirected aggression**：猫被窗外猫高度唤醒，但无法接触真正触发源，于是把攻击转向最近、最容易接触到的照护者。疼痛、皮肤病、泌尿问题、牙痛、神经问题和内分泌问题仍然要排除，因为医学不适会降低攻击阈值。
 
-这个模式最像由窗外猫触发的 redirected aggression，但疼痛或医学原因导致的易激惹仍然是重要鉴别方向。因为咬伤破皮且已经复发，优先级是防止再次受伤、阻断触发源，并安排兽医检查排除医学问题。
+照护者可以继续参与康复，但只在安全场景里参与。目标不是“安抚发作中的猫”，而是让猫重新把照护者、安全房、固定流程和好结果联系起来。
 
-## 处理方案
+## 今天开始
 
-- 人被猫咬破皮要认真处理，必要时就医。
-- 暂时阻断窗边触发：遮住低处窗面、拉上百叶窗、贴可移除窗膜，或在户外猫活跃时关闭该区域。
-- 事件后冷静隔离，不要抱起、惩罚、吼叫或追赶猫。
-- 在远离触发窗的位置增加室内 enrichment：食物玩具、固定玩耍时间、高处休息点和稳定日程。
-- 安静一段时间后，再做低阈值 desensitization / counterconditioning。一旦出现凝视、身体僵硬、低吼或接近攻击阈值就停止。
-- 预约兽医检查，排查疼痛、泌尿问题、皮肤病、牙痛、神经变化和药物/补充剂影响。
-- 如果攻击频率或强度上升、伤害继续发生、恢复时间变长，或另一只猫不安全，应升级到兽医行为专科。
+1. 猫暂住独立安全房，门要可靠，防止自己打开。
+2. 同住猫和她不见面、不同框、不隔门互相盯。
+3. 安全房保留猫砂、水、食物、窝、藏身处、抓挠点、垂直空间和信息素。
+4. 客厅触发窗暂时遮挡低处视线；户外猫活跃时关闭该区域。
+5. 照护者每天固定 2 到 3 次查看，每次 5 到 10 分钟。状态好也按时结束。
+6. 进门前穿鞋、长裤；门口放厚毯子和挡板。
+7. 咬伤破皮的人需要按当地医疗建议处理伤口，并留意感染风险。
 
-## 需要检索的科学证据
+## 执行流程图
 
-本地检索可以使用：
-
-```bash
-python3 scripts/search_corpus.py "owner-directed aggression in cats redirected aggression" -n 8
-python3 scripts/search_corpus.py "human-directed aggression cats differential diagnosis management" -n 8
-python3 scripts/search_corpus.py "stress in owned cats behavioural changes welfare" -n 8
+```mermaid
+flowchart TD
+  A["准备进入安全房"] --> B{"同住猫是否已隔离？"}
+  B -- 否 --> B1["先关好同住猫，再回来"]
+  B -- 是 --> C["穿鞋和长裤；确认挡板/毯子在门口"]
+  C --> D["开门后观察 10-20 秒"]
+  D --> E{"猫能吃、身体松、能转移注意力？"}
+  E -- 否 --> F["不进入或只远距离丢零食；缩短会面"]
+  E -- 是 --> G["侧身进入，坐低，不伸手"]
+  G --> H["先丢零食，再等待猫主动靠近"]
+  H --> I{"猫主动靠近且仍能吃？"}
+  I -- 否 --> J["只陪伴，不摸不抱，按时退出"]
+  I -- 是 --> K["只摸脸颊/下巴 1-3 下，然后停止"]
+  K --> L{"出现停吃、盯门、盯脚、尾巴快速抽动？"}
+  L -- 是 --> M["停止互动，拿挡板，平静退出"]
+  L -- 否 --> N["给零食，按时结束，记录反应"]
 ```
 
-相关公开 provenance metadata 包括：
+## 照护者进入安全房流程
 
-- Amat et al. (2019), *Common feline problem behaviours: Owner-directed aggression*, Journal of Feline Medicine and Surgery, PMID:30798644.
-- Frank and Dehasse (2003), *Differential diagnosis and management of human-directed aggression in cats*, Veterinary Clinics of North America: Small Animal Practice, PMID:12701512.
-- Amat et al. (2016), *Stress in owned cats: behavioural changes and welfare implications*, Journal of Feline Medicine and Surgery, PMID:26101238.
-- Stelow (2018), *Diagnosing Behavior Problems: A Guide for Practitioners*, Veterinary Clinics of North America: Small Animal Practice, PMID:29429600.
+| 步骤 | 做法 | 停止条件 |
+| --- | --- | --- |
+| 进门前 | 确认同住猫不在门口；穿鞋、长裤；挡板和毯子在手边。 | 同住猫在附近、门口拥挤、照护者无法安全退出。 |
+| 开门后 | 观察 10 到 20 秒。看猫是否能吃、身体是否放松、是否盯门/盯脚。 | 停吃、盯门、盯脚、低吼、hiss、炸毛。 |
+| 进入后 | 侧身、坐低、低声；先丢零食，不主动伸手。 | 猫靠近但身体变硬、尾巴快速抽动。 |
+| 短接触 | 只有猫主动靠近、能吃、能转移注意力时，摸脸颊/下巴 1 到 3 下。 | 猫停吃、转头盯门/脚、突然僵住。 |
+| 结束 | 状态好也按时结束，给零食后平静离开。 | 不为了“多陪一会儿”延长 session。 |
 
-## 真实案例对照
+## 接触判断表
 
-有 web access 时，可以搜索：
+| 风险 | 你会看到什么 | 怎么做 |
+| --- | --- | --- |
+| 低风险 | 主动靠近、身体松、能吃、不盯门、不盯脚。 | 可以短接触：摸 1 到 3 下就停。 |
+| 中风险 | 靠近但身体硬；吃零食变慢；尾巴开始抽动；门口有声音。 | 只丢零食和陪伴。不摸、不抱，准备退出。 |
+| 高风险 | 低吼、hiss、炸毛、瞳孔大、来回巡视、盯脚、盯门。 | 退出，关门。不要徒手处理。 |
+| 危险 | 扑、咬、抱手、后腿踢、攻击挡板或物品。 | 用毯子遮挡视线，隔开距离，关门，必要时联系兽医/行为专科。 |
 
-```text
-cat redirected aggression outdoor cat window owner bitten
-cat aggression after seeing outdoor cat through window resolved
-```
+## 同住猫处理
 
-这些公开真实案例只能作为 anecdotal implementation patterns，不能当作机制或疗效证据。
+1. 暂时物理分开，不隔门互相盯。
+2. 每天做低强度气味交换：软布、睡垫、脸颊气味；先不用猫砂盆气味。
+3. 闻到气味后还能吃、能放松，才继续。
+4. 低吼、hiss、盯门、攻击布片，就减量或暂停。
+5. 重新见面按步骤来：隔门安静共存 → 隔栅远距离 → 短时视觉接触 → 短时同处。任何紧张都退回上一步。
+
+## 阶段计划
+
+| 阶段 | 目标 | 通过标准 |
+| --- | --- | --- |
+| 第 1 阶段：稳定 | 安全房、固定作息、遮挡窗边触发、同住猫分开。 | 连续数天无攻击、能吃、能休息。 |
+| 第 2 阶段：安全连接 | 照护者短时进入，零食和低强度陪伴。 | 猫主动靠近，仍能吃，能离开互动。 |
+| 第 3 阶段：气味联系 | 与同住猫低强度气味交换。 | 闻气味后无低吼、hiss、盯门或攻击布片。 |
+| 第 4 阶段：触发脱敏 | 极低强度处理脚步、开门声、窗边线索。 | 训练中能吃、身体松、可转移注意力。 |
+| 第 5 阶段：重引入 | 同住猫从隔门到隔栅再到短时同处。 | 两只猫能短时放松共处，无追逐、低吼或僵持。 |
+
+## 行动-证据对照表
+
+| 行动 | 安全目的 | 科学依据 | 公开实践对照 | 停止 / 升级条件 |
+| --- | --- | --- | --- | --- |
+| 遮挡触发窗、减少户外猫刺激 | 阻断 redirected aggression 的上游触发。 | Amat et al. 2019, PMID:30798644；Frank & Dehasse 2003, PMID:12701512。 | Cornell Feline Health Center 和 VCA 都把窗外猫列为常见 redirected aggression 触发，并建议移除/遮挡刺激。Vetstreet 也建议用窗膜遮挡低处视线。 | 仍持续扑窗、攻击人或攻击同住猫。 |
+| 安全房 + 短时固定探视 | 降低刺激密度，让猫恢复可预测感。 | Amat et al. 2016, PMID:26101238；Stelow 2018, PMID:29429600。 | VCA redirected aggression 资料建议在安全区域等待猫冷静后再释放。 | 安全房内仍高唤醒、停吃、无法休息。 |
+| 不徒手安抚发作中的猫 | 避免照护者成为最近攻击目标。 | Frank & Dehasse 2003, PMID:12701512。 | Cornell 和 VCA 都描述 redirected aggression 会攻击附近人或同住动物。 | 出现破皮伤、扑咬升级、无法安全退出。 |
+| 只在“主动、能吃、能转移注意力”时短接触 | 把互动控制在低阈值内。 | Amat et al. 2016, PMID:26101238；Stelow 2018, PMID:29429600。 | Petful 的公开案例把食物和正向 reconditioning 作为实践模式，但只能视为 anecdotal。 | 停吃、盯门、盯脚、身体僵硬。 |
+| 同住猫先做气味联系，再重引入 | 防止猫间关系被一次高唤醒事件固定成冲突。 | Amat et al. 2019, PMID:30798644；Stelow 2018, PMID:29429600。 | VCA 和 Vetstreet 都建议避免再次暴露触发，并在关系受影响时逐步处理。 | 隔门盯视、低吼、hiss、攻击布片或门缝。 |
+
+## 真实案例 / 公开实践来源
+
+- Cornell Feline Health Center: [Feline Behavior Problems: Aggression](https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center/health-information/feline-health-topics/feline-behavior-problems-aggression)
+- VCA Animal Hospitals: [Cat Behavior Problems: Aggression Redirected](https://vcahospitals.com/know-your-pet/cat-behavior-problems-aggression-redirected)
+- Vetstreet: [My Indoor Cat Is Being Tormented by an Outdoor Cat](https://www.vetstreet.com/our-pet-experts/help-my-indoor-cat-is-being-tormented-by-an-outdoor-cat)
+- Petful: [Redirected Aggression in Cats](https://www.petful.com/behaviors/redirected-aggression-in-cats/)
+
+这些来源支持“遮挡/移除触发、等待冷静、避免徒手介入、逐步重引入”的实践方向。它们不是替代论文的疗效证据；在 consult 中应和科学文献分开呈现。
