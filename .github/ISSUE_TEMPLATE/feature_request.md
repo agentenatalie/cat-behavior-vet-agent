@@ -16,7 +16,7 @@ What should change?
 
 ## Scope
 
-- [ ] Host-agent workflow
+- [ ] Native Agent workflow
 - [ ] Local retrieval
 - [ ] Corpus generation
 - [ ] Zotero MCP

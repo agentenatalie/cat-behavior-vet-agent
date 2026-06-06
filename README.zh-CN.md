@@ -11,16 +11,16 @@
 <p align="center">
   <a href="LICENSE"><img alt="License: CC BY-NC-ND 4.0" src="https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg"></a>
   <a href="https://www.python.org/downloads/"><img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-blue.svg"></a>
-  <a href="#host-agent-mode"><img alt="Local-first mode" src="https://img.shields.io/badge/Mode-local--first-lightgrey.svg"></a>
+  <a href="#原生-agent-模式"><img alt="Local-first mode" src="https://img.shields.io/badge/Mode-local--first-lightgrey.svg"></a>
 </p>
 
 循证猫/伴侣动物行为 consult agent。适合接入 Claude Code、Codex，或其他能读取 skill 文件并运行本地命令的 agent 环境。
 
-默认模式是 **host-agent mode**：Claude Code/Codex 自己就是推理模型，不需要额外接入另一个 LLM API。本仓库提供兽医行为专科 prompt、本地文献检索脚本、语料生成工具，以及可选的 Zotero MCP / PaperQA2 集成。
+默认模式是 **原生 Agent 模式**：Claude Code/Codex 自己就是推理模型，不需要额外接入另一个 LLM API。本仓库提供兽医行为专科 prompt、本地文献检索脚本、语料生成工具，以及可选的 Zotero MCP / PaperQA2 集成。
 
 ## 它能做什么
 
-- 引导宿主 agent 按兽医行为 consult 流程工作。
+- 引导当前 agent 按兽医行为 consult 流程工作。
 - 从 PubMed 派生的本地猫行为语料中检索证据。
 - 支持猫应激、恐惧、攻击、排泄问题、疼痛/疾病相关行为变化、就诊处理等问题。
 - 强制先做医学优先分诊，再解释行为动机。
@@ -30,13 +30,13 @@
 
 ## 架构
 
-默认 host-agent mode：
+默认原生 Agent 模式：
 
 1. 用户显式调用 `/veterinary-behaviorist`。
-2. Claude Code、Codex 或其他宿主 agent 读取 `skill/veterinary-behaviorist/SKILL.md`。
-3. 宿主 agent 运行 `scripts/search_corpus.py` 检索本地文献片段。
-4. 如果配置了 Zotero MCP，宿主 agent 可以继续搜索本地 Zotero 文献库。
-5. 宿主 agent 用自己的模型生成最终回答，并且只引用检索到的来源。
+2. Claude Code、Codex 或其他兼容 agent 读取 `skill/veterinary-behaviorist/SKILL.md`。
+3. 当前 agent 运行 `scripts/search_corpus.py` 检索本地文献片段。
+4. 如果配置了 Zotero MCP，当前 agent 可以继续搜索本地 Zotero 文献库。
+5. 当前 agent 用自己的模型生成最终回答，并且只引用检索到的来源。
 
 可选 PaperQA2 mode：
 
@@ -97,7 +97,7 @@ papers/manifest.csv
 
 ## 环境要求
 
-默认 host-agent mode：
+默认原生 Agent 模式：
 
 - Python 3.11+
 - Claude Code、Codex，或其他能读取本地指令并运行 shell 命令的 agent 环境
@@ -171,11 +171,11 @@ consult the veterinary behaviorist agent
 
 这个 skill 默认关闭。不要因为对话里出现“猫、狗、行为、攻击、应激、焦虑”等词就自动启用。
 
-## Host-Agent Mode
+## 原生 Agent 模式
 
 这是默认模式，不需要额外 LLM API。
 
-宿主 agent 检索本地证据：
+当前 agent 检索本地证据：
 
 ```bash
 cd "$VET_AGENT_HOME"
@@ -191,11 +191,11 @@ python3 scripts/search_corpus.py "cat owner-directed aggression treatment" -n 10
 - citation
 - 命中的文本片段
 
-宿主 agent 读取这些片段后，用自己的模型完成 consult 回答。
+当前 agent 读取这些片段后，用自己的模型完成 consult 回答。
 
-## 给宿主 Agent 的行为约定
+## 给当前 Agent 的行为约定
 
-skill 被激活后，宿主 agent 应该：
+skill 被激活后，当前 agent 应该：
 
 1. 复述 case：物种、年龄、性别/绝育、行为、触发因素、时间线、伤害风险。
 2. 先做医学优先分诊：疼痛、皮肤病、泌尿系统疾病、内分泌疾病、神经问题、药物影响、认知退化。
@@ -296,7 +296,7 @@ cd /path/to/cat-behavior-vet-agent
 
 ## 可选：Zotero MCP
 
-Zotero MCP 让宿主 agent 搜索本地 Zotero 文献库、读取元数据、查看全文，以及使用笔记和注释。
+Zotero MCP 让当前 agent 搜索本地 Zotero 文献库、读取元数据、查看全文，以及使用笔记和注释。
 
 安装：
 
@@ -327,7 +327,7 @@ curl -X POST http://127.0.0.1:23119/connector/import \
 
 ### 我需要另一个 LLM API 吗？
 
-不需要。默认 host-agent mode 使用 Claude Code、Codex 或你的宿主 agent 作为推理模型。
+不需要。默认的原生 Agent 模式会使用 Claude Code、Codex 或你正在接入的 agent 作为推理模型。
 
 ### 为什么还有 PaperQA2 配置？
 

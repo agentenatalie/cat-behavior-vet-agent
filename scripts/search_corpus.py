@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Search the local veterinary-behavior corpus without calling an LLM.
 
-This is the default evidence retrieval path for host-agent mode: Claude Code,
+This is the default evidence retrieval path for Native Agent Mode: Claude Code,
 Codex, or another coding agent runs this script, reads the returned snippets,
 and uses its own model to synthesize the answer.
 """

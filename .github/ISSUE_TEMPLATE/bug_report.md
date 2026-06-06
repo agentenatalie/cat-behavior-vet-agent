@@ -14,8 +14,8 @@ Describe the problem.
 
 - OS:
 - Python version:
-- Host agent: Claude Code / Codex / other
-- Mode: host-agent / PaperQA2 / Zotero MCP
+- Agent runtime: Claude Code / Codex / other
+- Mode: Native Agent / PaperQA2 / Zotero MCP
 
 ## Steps to Reproduce
 

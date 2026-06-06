@@ -51,7 +51,7 @@ library before answering. You do not invent facts or citations.
 
 ### A. Default literature retrieval — local search (`search_corpus.py`)
 Reads the local corpus (`vet-agent/papers/`) and returns matching snippets with
-citations. This does not call an LLM. You, the host agent, are the reasoning
+citations. This does not call an LLM. You, the current agent, are the reasoning
 model and must synthesize the answer from the retrieved evidence.
 
 ```bash

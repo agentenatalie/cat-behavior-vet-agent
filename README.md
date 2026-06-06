@@ -11,16 +11,16 @@
 <p align="center">
   <a href="LICENSE"><img alt="License: CC BY-NC-ND 4.0" src="https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg"></a>
   <a href="https://www.python.org/downloads/"><img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-blue.svg"></a>
-  <a href="#host-agent-mode"><img alt="Local-first mode" src="https://img.shields.io/badge/Mode-local--first-lightgrey.svg"></a>
+  <a href="#native-agent-mode"><img alt="Local-first mode" src="https://img.shields.io/badge/Mode-local--first-lightgrey.svg"></a>
 </p>
 
-Evidence-based veterinary behavior agent for cats and companion animals. It is designed for Claude Code, Codex, and other host agents that can read a skill file and run local commands.
+Evidence-based veterinary behavior agent for cats and companion animals. It is designed for Claude Code, Codex, and other agent runtimes that can read a skill file and run local commands.
 
-The default mode uses the host agent itself as the reasoning model. You do not need to connect another LLM API. This repository provides the veterinary behavior prompt, local literature retrieval scripts, corpus generation tooling, and optional Zotero MCP / PaperQA2 integrations.
+The default mode uses the current agent itself as the reasoning model. You do not need to connect another LLM API. This repository provides the veterinary behavior prompt, local literature retrieval scripts, corpus generation tooling, and optional Zotero MCP / PaperQA2 integrations.
 
 ## What It Does
 
-- Guides a host agent through a veterinary behavior consult workflow.
+- Guides the current agent through a veterinary behavior consult workflow.
 - Retrieves local evidence from a PubMed-derived cat behavior corpus.
 - Supports cat stress, fear, aggression, elimination problems, pain or disease-related behavior change, and clinic handling questions.
 - Encourages medical-first triage before behavioral interpretation.
@@ -30,13 +30,13 @@ The default mode uses the host agent itself as the reasoning model. You do not n
 
 ## Architecture
 
-Default host-agent mode:
+Default Native Agent Mode:
 
 1. The user explicitly calls `/veterinary-behaviorist`.
-2. Claude Code, Codex, or another host agent loads `skill/veterinary-behaviorist/SKILL.md`.
-3. The host agent runs `scripts/search_corpus.py` to retrieve local evidence snippets.
-4. If Zotero MCP is configured, the host agent can also search the local Zotero library.
-5. The host agent writes the final answer using its own model and cites only retrieved sources.
+2. Claude Code, Codex, or another compatible agent runtime loads `skill/veterinary-behaviorist/SKILL.md`.
+3. The current agent runs `scripts/search_corpus.py` to retrieve local evidence snippets.
+4. If Zotero MCP is configured, the current agent can also search the local Zotero library.
+5. The current agent writes the final answer using its own model and cites only retrieved sources.
 
 Optional PaperQA2 mode:
 
@@ -97,7 +97,7 @@ The corpus is generated locally from:
 
 ## Requirements
 
-Default host-agent mode:
+Default Native Agent Mode:
 
 - Python 3.11+
 - Claude Code, Codex, or another agent environment that can read local instructions and run shell commands
@@ -169,13 +169,13 @@ consult the veterinary behaviorist agent
 用兽医行为 skill 看一下这个 case
 ```
 
-The skill is off by default. The host agent should not activate it just because a conversation mentions cats, dogs, behavior, aggression, stress, or anxiety.
+The skill is off by default. The current agent should not activate it just because a conversation mentions cats, dogs, behavior, aggression, stress, or anxiety.
 
-## Host-Agent Mode
+## Native Agent Mode
 
-Host-agent mode is the default. It does not require an additional LLM API.
+Native Agent Mode is the default. It does not require an additional LLM API.
 
-The host agent retrieves local evidence:
+The current agent retrieves local evidence:
 
 ```bash
 cd "$VET_AGENT_HOME"
@@ -191,11 +191,11 @@ python3 scripts/search_corpus.py "cat owner-directed aggression treatment" -n 10
 - Citation
 - Matching snippet
 
-The host agent then uses its own model to produce the consult answer.
+The current agent then uses its own model to produce the consult answer.
 
-## Behavior Contract for Host Agents
+## Behavior Contract for Current Agents
 
-When the skill is activated, the host agent should:
+When the skill is activated, the current agent should:
 
 1. Restate the case: species, age, sex/neuter status, behavior, triggers, timeline, and injury risk.
 2. Start with medical-first triage: pain, skin disease, urinary disease, endocrine disease, neurologic disease, medication effects, cognitive decline.
@@ -296,7 +296,7 @@ Default PaperQA2 settings are in `settings.json`. The default model is `mimo-v2.
 
 ## Optional: Zotero MCP
 
-Zotero MCP lets the host agent search a local Zotero library, read metadata, inspect full text, and use notes or annotations.
+Zotero MCP lets the current agent search a local Zotero library, read metadata, inspect full text, and use notes or annotations.
 
 Install:
 
@@ -327,7 +327,7 @@ Repeated imports can create duplicate Zotero items. Use Zotero's Duplicate Items
 
 ### Do I need another LLM API?
 
-No. The default host-agent mode uses Claude Code, Codex, or your existing host agent as the reasoning model.
+No. The default Native Agent Mode uses Claude Code, Codex, or your current agent runtime as the reasoning model.
 
 ### Why is there a PaperQA2 configuration?
 
